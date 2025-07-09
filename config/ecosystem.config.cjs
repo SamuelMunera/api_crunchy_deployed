@@ -1,4 +1,3 @@
-cat > config/ecosystem.config.cjs << 'EOF'
 module.exports = {
   apps: [{
     name: 'api-crunchy',
@@ -12,4 +11,3 @@ module.exports = {
     }
   }]
 };
-EOF
