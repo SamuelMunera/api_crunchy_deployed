@@ -1,9 +1,9 @@
-import SuperUser from "../models/SuperUser.js";
+import SuperUser from "../models/superUser.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // La clave secreta para firmar los JWT - usando la misma que para usuarios normales
-const JWT_SECRET = process.env.JWT_SECRET || "tu_clave_secreta_muy_segura";
+const JWT_SECRET = process.env.JWT_SECRET || "tu_clave_secreta_muy_segura123";
 
 export async function loginSuperUser(userName, password) {
     try {
