@@ -119,77 +119,126 @@ export async function getProductById(req, res) {
         return res.status(500).json({ message: error.message });
     }
 }
+// ✅ CONTROLADORES CORREGIDOS
+
 export const getProductToppings = async (req, res) => {
-    const { name } = req.params;
-
+    const { id } = req.params;
+    
     try {
-        const product = await Product.findOne({ name }).populate("toppings");
-
+        // ✅ CORRECCIÓN: Usar findById en lugar de findOne({ id })
+        const product = await Product.findById(id).populate("toppings");
+        
         if (!product) {
-            return res.status(404).json({ message: "Producto no encontrado" });
+            return res.status(404).json({ 
+                message: "Producto no encontrado",
+                productId: id 
+            });
         }
-
+        
+        // ✅ Agregar logs para debugging
+        console.log(`✅ Producto encontrado: ${product.name}`);
+        console.log(`✅ Toppings encontrados: ${product.toppings.length}`);
+        
         res.json(product.toppings);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener toppings", error });
+        console.error('❌ Error en getProductToppings:', error);
+        res.status(500).json({ 
+            message: "Error al obtener toppings", 
+            error: error.message,
+            productId: id 
+        });
     }
 };
 
+export const getProductIceCream = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        // ✅ CORRECCIÓN: Usar findById en lugar de findOne({ id })
+        const product = await Product.findById(id).populate("iceCream");
+        
+        if (!product) {
+            return res.status(404).json({ 
+                message: "Producto no encontrado",
+                productId: id 
+            });
+        }
+        
+        // ✅ Agregar logs para debugging
+        console.log(`✅ Producto encontrado: ${product.name}`);
+        console.log(`✅ Ice Creams encontrados: ${product.iceCream.length}`);
+        
+        res.json(product.iceCream);
+    } catch (error) {
+        console.error('❌ Error en getProductIceCream:', error);
+        res.status(500).json({ 
+            message: "Error al obtener helados", 
+            error: error.message,
+            productId: id 
+        });
+    }
+};
 
 export const assignToppingsToProduct = async (req, res) => {
     const { id } = req.params;
     const { toppings } = req.body;
-
+    
     try {
+        // ✅ Verificar que el producto existe primero
+        const existingProduct = await Product.findById(id);
+        if (!existingProduct) {
+            return res.status(404).json({ 
+                message: "Producto no encontrado",
+                productId: id 
+            });
+        }
+        
         const updatedProduct = await Product.findByIdAndUpdate(
             id,
             { toppings },
             { new: true }
         ).populate("toppings");
-
-        if (!updatedProduct) {
-            return res.status(404).json({ message: "Producto no encontrado" });
-        }
-
+        
+        console.log(`✅ Toppings asignados al producto: ${updatedProduct.name}`);
         res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(500).json({ message: "Error al asignar toppings", error });
+        console.error('❌ Error en assignToppingsToProduct:', error);
+        res.status(500).json({ 
+            message: "Error al asignar toppings", 
+            error: error.message,
+            productId: id 
+        });
     }
 };
 
 export const assignHeladosToProduct = async (req, res) => {
     const { id } = req.params;
     const { iceCream } = req.body;
-  
+    
     try {
-      // 1. Primero actualizas
-      await Product.findByIdAndUpdate(id, { iceCream });
-  
-      // 2. Luego consultas y haces populate
-      const updatedProduct = await Product.findById(id).populate("iceCream");
-  
-      if (!updatedProduct) {
-        return res.status(404).json({ message: "Producto no encontrado" });
-      }
-  
-      res.status(200).json(updatedProduct);
-    } catch (error) {
-      res.status(500).json({ message: "Error al asignar helados", error });
-    }
-  };
-  
-export const getProductIceCream = async (req, res) => {
-    const { name } = req.params;
-
-    try {
-        const product = await Product.findOne({ name }).populate("iceCream");
-
-        if (!product) {
-            return res.status(404).json({ message: "Producto no encontrado" });
+        // ✅ Verificar que el producto existe primero
+        const existingProduct = await Product.findById(id);
+        if (!existingProduct) {
+            return res.status(404).json({ 
+                message: "Producto no encontrado",
+                productId: id 
+            });
         }
-
-        res.json(product.iceCream);
+        
+        // 1. Actualizar el producto
+        await Product.findByIdAndUpdate(id, { iceCream });
+        
+        // 2. Consultar con populate
+        const updatedProduct = await Product.findById(id).populate("iceCream");
+        
+        console.log(`✅ Ice Creams asignados al producto: ${updatedProduct.name}`);
+        res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener helados", error });
+        console.error('❌ Error en assignHeladosToProduct:', error);
+        res.status(500).json({ 
+            message: "Error al asignar helados", 
+            error: error.message,
+            productId: id 
+        });
     }
 };
