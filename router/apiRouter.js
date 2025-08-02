@@ -10,7 +10,8 @@ import superUserRouter from './superUserRouter.js';
 import superUserAuthRouter from './superUserAuthRouter.js';
 import toppingRouter from './toppingRouter.js'; 
 import iceCreamRouter from './iceCreamRouter.js';
-import pedidoRouter from './pedidosRouter.js'; // Importa el router de pedidos
+import pedidoRouter from './pedidosRouter.js';
+
 
 const router = express.Router();      
 router.use('/cookie', cookieRouter);
@@ -24,6 +25,7 @@ router.use('/superUser', superUserRouter);
 router.use('/superUserAuth', superUserAuthRouter);
 router.use('/topping', toppingRouter);
 router.use('/iceCream', iceCreamRouter); 
-router.use('/pedidos', pedidoRouter); // Usa el router de pedidos
+router.use('/pedidos', pedidoRouter); 
+
 
 export default router;   
