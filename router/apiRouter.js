@@ -11,6 +11,7 @@ import superUserAuthRouter from './superUserAuthRouter.js';
 import toppingRouter from './toppingRouter.js'; 
 import iceCreamRouter from './iceCreamRouter.js';
 import pedidoRouter from './pedidosRouter.js';
+import voteRouter from './voteRouter.js';
 
 
 const router = express.Router();      
@@ -26,6 +27,7 @@ router.use('/superUserAuth', superUserAuthRouter);
 router.use('/topping', toppingRouter);
 router.use('/iceCream', iceCreamRouter); 
 router.use('/pedidos', pedidoRouter); 
+router.use('/vote', voteRouter);
 
 
 export default router;   
