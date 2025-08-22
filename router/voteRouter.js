@@ -12,10 +12,10 @@ import {
 const router = express.Router();
 
 // GET /api/vote - Obtener todos los votos
-router.get('/', getVotes);
+router.get('/getAll', getVotes);
 
 // POST /api/vote - Crear un nuevo voto
-router.post('/', createVote);
+router.post('/create', createVote);
 
 // GET /api/vote/statistics - Obtener estadísticas
 router.get('/statistics', getStatistics);
