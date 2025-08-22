@@ -17,8 +17,32 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3020;
 
+// 🔧 Configuración CORS específica
+const corsOptions = {
+  origin: [
+    'https://www.crunchy-munch.com',
+    'https://crunchy-munch.com',
+    'http://localhost:4200', // para desarrollo local
+    'http://localhost:3020'  // para desarrollo local
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'X-Requested-With',
+    'Accept',
+    'Origin'
+  ]
+};
+
 // 🔧 Middlewares
-app.use(cors());
+app.use(cors(corsOptions));
+
+// Middleware adicional para manejar preflight requests
+app.options('*', cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -47,4 +71,3 @@ app.listen(PORT, () => {
 });
 
 export default app;
-
