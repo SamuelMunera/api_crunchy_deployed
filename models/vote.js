@@ -52,7 +52,7 @@ const voteSchema = new mongoose.Schema({
     optionName: {
         type: String,
         required: [true, "El nombre de la opción es requerido"],
-        enum: ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Atlas', 'Bruki']
+        enum: ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Koalas', 'Bruki']
     },
     ipAddress: {
         type: String,
@@ -75,7 +75,7 @@ voteSchema.pre('save', function(next) {
     console.log('Pre-save middleware ejecutándose...');
     console.log('selectedOption:', this.selectedOption);
     
-    const options = ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Atlas', 'Bruki'];
+    const options = ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Koalas', 'Bruki'];
     
     // Verificar que selectedOption sea un número válido
     if (typeof this.selectedOption === 'number' && 
