@@ -10,16 +10,16 @@ export async function getAllVotes() {
 
 export async function createNewVote(data, ipAddress, userAgent) {
     try {
-        const { nombreCompleto, cedula, telefono, correo, selectedOption } = data;
+        const { nombreCompleto, documento, edad, municipio, telefono, correo, selectedOption } = data;  // Actualizado
 
-        // Verificar si ya existe un voto con esa cédula
+        // Verificar si ya existe un voto con ese documento (cambiado de cedula)
         const existingVote = await Vote.findOne({ 
-            cedula: cedula.trim(), 
+            documento: documento.trim(),  // Cambiado de 'cedula' a 'documento'
             deletedAt: null 
         });
         
         if (existingVote) {
-            throw new Error("Ya existe un voto registrado con esta cédula");
+            throw new Error("Ya existe un voto registrado con este documento");
         }
 
         // Verificar si ya existe un voto con ese correo
@@ -34,7 +34,9 @@ export async function createNewVote(data, ipAddress, userAgent) {
 
         const newVote = new Vote({ 
             nombreCompleto: nombreCompleto.trim(),
-            cedula: cedula.trim(),
+            documento: documento.trim(),  // Cambiado de 'cedula' a 'documento'
+            edad: parseInt(edad),         // Campo agregado
+            municipio: municipio.trim(),  // Campo agregado
             telefono: telefono.trim(),
             correo: correo.toLowerCase().trim(),
             selectedOption: parseInt(selectedOption),
@@ -92,10 +94,10 @@ export async function getVotingStatistics() {
     }
 }
 
-export async function checkIfVoted(cedula) {
+export async function checkIfVoted(documento) {  // Cambiado de 'cedula' a 'documento'
     try {
         const existingVote = await Vote.findOne({ 
-            cedula: cedula.trim(),
+            documento: documento.trim(),  // Cambiado de 'cedula' a 'documento'
             deletedAt: null 
         });
         

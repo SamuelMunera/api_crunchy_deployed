@@ -8,16 +8,37 @@ const voteSchema = new mongoose.Schema({
         minlength: [2, "El nombre debe tener al menos 2 caracteres"],
         maxlength: [100, "El nombre no puede exceder 100 caracteres"]
     },
-    cedula: {
+    documento: {  // Cambiado de 'cedula' a 'documento'
         type: String,
-        required: [true, "La cédula es requerida"],
+        required: [true, "El documento es requerido"],
         unique: true,
         trim: true,
         validate: {
             validator: function(v) {
                 return /^\d+$/.test(v);
             },
-            message: 'La cédula debe contener solo números'
+            message: 'El documento debe contener solo números'
+        }
+    },
+    edad: {  // Campo agregado
+        type: Number,
+        required: [true, "La edad es requerida"],
+        min: [5, "La edad mínima es 5 años"],
+        max: [100, "La edad máxima es 120 años"]
+    },
+    municipio: {  // Campo agregado
+        type: String,
+        required: [true, "El municipio es requerido"],
+        trim: true,
+        enum: {
+            values: [
+                'Abejorral', 'Alejandría', 'Bello', 'Carmen de Viboral', 
+                'Cocorná', 'Concepción', 'El Peñol', 'El Retiro', 
+                'El Santuario', 'Envigado', 'Guarne', 'Guatapé', 
+                'Itagui', 'La Ceja', 'La Unión', 'Medellin', 
+                'Rionegro', 'Sabaneta', 'Sonsón', 'Otro'
+            ],
+            message: 'Municipio no válido'
         }
     },
     telefono: {
@@ -52,7 +73,7 @@ const voteSchema = new mongoose.Schema({
     optionName: {
         type: String,
         required: [true, "El nombre de la opción es requerido"],
-        enum: ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Koalas', 'Bruki']
+        enum: ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Koalas', 'Bruki']  // Corregido: Koalas en lugar de Atlas
     },
     ipAddress: {
         type: String,
@@ -75,7 +96,7 @@ voteSchema.pre('save', function(next) {
     console.log('Pre-save middleware ejecutándose...');
     console.log('selectedOption:', this.selectedOption);
     
-    const options = ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Koalas', 'Bruki'];
+    const options = ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Koalas', 'Bruki'];  // Corregido
     
     // Verificar que selectedOption sea un número válido
     if (typeof this.selectedOption === 'number' && 
@@ -95,7 +116,7 @@ voteSchema.pre('save', function(next) {
 voteSchema.pre('validate', function(next) {
     console.log('Pre-validate middleware ejecutándose...');
     
-    const options = ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Atlas', 'Bruki'];
+    const options = ['Ancookies', 'Galletery', 'Fratelli', 'Bluetopia', 'Koalas', 'Bruki'];  // Corregido
     
     // Si no tiene optionName pero sí selectedOption, asignarlo
     if (!this.optionName && typeof this.selectedOption === 'number') {

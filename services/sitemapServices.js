@@ -55,6 +55,8 @@ class SitemapService {
       { url: '/dadada', lastmod: now, changefreq: 'monthly', priority: 0.3 },
       { url: '/Admin Login', lastmod: now, changefreq: 'monthly', priority: 0.2 },
       { url: '/Resumen de compra', lastmod: now, changefreq: 'daily', priority: 0.6 },
+      { url: '/Votacion', lastmod: now, changefreq: 'daily', priority: 1.0 },
+      { url: '/Confirmacion Voto', lastmod: now, changefreq: 'daily', priority: 0.6 },
     ];
   }
 

@@ -21,7 +21,7 @@ router.post('/create', createVote);
 router.get('/statistics', getStatistics);
 
 // GET /api/vote/check/:cedula - Verificar si ya votó
-router.get('/check/:cedula', checkVote);
+router.get('/check/:documento', checkVote);
 
 // GET /api/vote/:id - Obtener un voto específico
 router.get('/:id', getVote);
