@@ -52,18 +52,13 @@ connectDatabase();
 // 🗺️ Rutas de sitemap y robots.txt — se colocan antes de archivos estáticos
 app.use('/', sitemapRouter);
 
-// 📦 Servir frontend Angular (build)
-app.use(express.static(path.join(__dirname, '../frontend/dist/crunchy-munch')));
+
 
 // 📡 Rutas API backend
 app.use('/api', apiRouter);
 
-// 🪄 Catch-all para Angular (SPA)
-app.get('*', (req, res) => {
-  if (!req.path.startsWith('/api') && !req.path.includes('.xml') && !req.path.includes('.txt')) {
-    res.sendFile(path.join(__dirname, '../frontend/dist/crunchy-munch/index.html'));
-  }
-});
+
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en ${PORT}`);
